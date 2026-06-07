@@ -329,6 +329,26 @@ i<!DOCTYPE html>
   }, (err) => { if (!err) Quagga.start(); });
 }
   initScanner();
+ // 1. Ajoute cet écouteur d'événement après ton initScanner()
+document.getElementById('scanner-container').addEventListener('click', function() {
+  console.log("Tentative de refaire le focus...");
+  
+  // On récupère le flux vidéo actif
+  const track = Quagga.CameraAccess.getActiveTrack();
+  if (track && track.getCapabilities().focusMode) {
+    // Si le matériel le permet, on envoie une contrainte de mise au point
+    track.applyConstraints({
+      advanced: [{ focusMode: 'single-shot' }]
+    }).then(() => {
+      // On repasse en continu après le "shot" pour rester net
+      setTimeout(() => {
+        track.applyConstraints({
+          advanced: [{ focusMode: 'continuous' }]
+        });
+      }, 1000);
+    }).catch(err => console.error("Le focus manuel n'est pas supporté", err));
+  }
+});
 
   function toggleDev() {
     devMode = !devMode;
@@ -426,6 +446,7 @@ i<!DOCTYPE html>
     delete panier[code];
     renderList();
   }
+ 
 </script>
 </body>
 </html>
