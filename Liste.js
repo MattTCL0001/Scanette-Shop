@@ -10,5 +10,5 @@ const baseProduits = {
     "7622202300974 ": { nom: "Chocolat blanc Toblerone - 340g", prix: 2.00 },
     "5449000308016": { nom: "Coca Cola sans sucre - verre 750mL", prix: 2.00 },
     "5449000233295": { nom: "Coca Cola sans sucre sans caféine - canette 330mL", prix: 2.00 },
-    "4000512008903 ": { nom: "Trolli Big Burger", prix: 1.00 },
+    "4000512008903": { nom: "Trolli Big Burger", prix: 1.00 },
 };
