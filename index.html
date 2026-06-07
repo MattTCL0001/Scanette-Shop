@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+i<!DOCTYPE html>
 <html lang="fr">
 <head>
 <meta charset="UTF-8">
@@ -305,17 +305,29 @@
   let devMode = false;
 
   function initScanner() {
-    Quagga.init({
-      inputStream: {
-        name: "Live", type: "LiveStream",
-        target: document.querySelector('#scanner-container'),
-        constraints: { facingMode: "environment", focusMode: "continuous" }
-      },
-      locate: true,
-      decoder: { readers: ["ean_reader", "ean_8_reader", "code_128_reader"] },
-      locator: { patchSize: "medium", halfSample: true }
-    }, (err) => { if (!err) Quagga.start(); });
-  }
+  Quagga.init({
+    inputStream: {
+      name: "Live", type: "LiveStream",
+      target: document.querySelector('#scanner-container'),
+      constraints: { 
+        facingMode: "environment",
+        // Note: focusMode est souvent ignoré par les navigateurs sur mobile
+        // mais c'est une bonne pratique de le garder
+        focusMode: "continuous" 
+      }
+    },
+    locator: {
+      patchSize: "medium",
+      halfSample: true,
+      // Définit la zone de recherche : [top, left, bottom, right]
+      // Ici, on prend les 20% du haut, 10% de gauche, 20% du bas, 10% de droite.
+      // Cela crée une "fenêtre" centrale.
+      area: { top: "20%", right: "10%", left: "10%", bottom: "20%" }
+    },
+    decoder: { readers: ["ean_reader", "ean_8_reader", "code_128_reader"] },
+    locate: true
+  }, (err) => { if (!err) Quagga.start(); });
+}
   initScanner();
 
   function toggleDev() {
